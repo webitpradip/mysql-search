@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Results</title>
+</head>
+<body>
+    <h1>Search Results</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Search Again</button>
+    </form>
+    {% for table_name, table_results in results.items %}
+        <h2>Table Name: {{ table_name }}</h2>
+        {% for result in table_results %}
+            <h3>Column: {{ result.column_name }}</h3>
+            <table border="1">
+                <tr>
+                    {% for column in result.columns %}
+                        <th>{{ column.0 }}</th>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    {% for row in result.rows %}
+                        {% for cell in row %}
+                            <td>{{ cell }}</td>
+                        {% endfor %}
+                    {% endfor %}
+                </tr>
+            </table>
+        {% endfor %}
+    {% endfor %}
+</body>
+</html>
